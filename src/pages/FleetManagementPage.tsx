@@ -91,6 +91,7 @@ function FleetManagementPage() {
           <p className="mt-2 text-sm text-slate-600">
             Active vehicles from MBTA API
           </p>
+          <p className='font-bold text-sm'>By: Reynaldy Saputra</p>
         </header>
 
         {loading ? (
