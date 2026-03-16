@@ -36,5 +36,24 @@ The application allows users to view vehicles, filter them by route and trip, na
 ### 1. Clone the repository
 
 ```bash
-git clone <your-public-repository-url>
-cd <your-project-folder>
+git clone [<your-public-repository-url>](https://github.com/reynaldysaputra/transjakarta-fleet-management.git)
+cd transjakarta-fleet-management
+```
+
+### 2. Install dependencies
+
+```
+npm install
+```
+
+### 3. Start the development server
+
+```
+npm run dev
+```
+
+### 4. Open in browser
+
+```
+http://localhost:5173
+```
