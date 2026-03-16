@@ -10,7 +10,7 @@ export interface ApiRelationshipLinks {
 
 export interface ApiRelationship {
   links?: ApiRelationshipLinks
-  data: ApiResourceIdentifier | ApiResourceIdentifier[] | null
+  data: ApiResourceIdentifier | null
 }
 
 export interface ApiRelationships {

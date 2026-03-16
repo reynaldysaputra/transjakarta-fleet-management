@@ -3,6 +3,7 @@ import EmptyState from '../components/common/EmptyState'
 import ErrorState from '../components/common/ErrorState'
 import LoadingSpinner from '../components/common/LoadingSpinner'
 import Pagination from '../components/pagination/Pagination'
+import VehicleDetailModal from '../components/vehicles/vehicleDetailModal'
 import VehicleGrid from '../components/vehicles/vehicleGrid'
 import { getApiErrorMessage, getVehicles } from '../api/mbta'
 import type { Vehicle } from '../types/vehicle'
@@ -14,6 +15,8 @@ function FleetManagementPage() {
 
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage, setItemsPerPage] = useState(5)
+
+  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null)
 
   const fetchVehicles = async () => {
     try {
@@ -72,7 +75,10 @@ function FleetManagementPage() {
           />
         ) : (
           <>
-            <VehicleGrid vehicles={currentVehicles} />
+            <VehicleGrid
+              vehicles={currentVehicles}
+              onVehicleClick={setSelectedVehicle}
+            />
 
             <Pagination
               currentPage={currentPage}
@@ -85,6 +91,11 @@ function FleetManagementPage() {
           </>
         )}
       </div>
+
+      <VehicleDetailModal
+        vehicle={selectedVehicle}
+        onClose={() => setSelectedVehicle(null)}
+      />
     </main>
   )
 }
