@@ -30,12 +30,12 @@ function Pagination({
     <div className="mt-6 rounded-xl border bg-white p-4">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <p className="text-sm text-gray-700">
-          Menampilkan <span className="font-semibold">{startData}-{endData}</span> dari{' '}
+          Showing <span className="font-semibold">{startData}-{endData}</span> of{' '}
           <span className="font-semibold">{totalData}</span> Data
         </p>
 
         <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-700">Data per halaman:</label>
+          <label className="text-sm text-gray-700">Data per page:</label>
           <select
             value={itemsPerPage}
             onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
@@ -62,8 +62,8 @@ function Pagination({
             key={page}
             onClick={() => onPageChange(page)}
             className={`rounded-lg border px-3 py-2 text-sm ${currentPage === page
-                ? 'bg-blue-600 text-white border-blue-600'
-                : 'bg-white text-black border-gray-300'
+              ? 'bg-blue-600 text-white border-blue-600'
+              : 'bg-white text-black border-gray-300'
               }`}
           >
             {page}
@@ -80,7 +80,7 @@ function Pagination({
       </div>
 
       <p className="mt-3 text-center text-sm text-gray-600">
-        Total Halaman: <span className="font-semibold">{totalPages}</span>
+        Total Pages: <span className="font-semibold">{totalPages}</span>
       </p>
     </div>
   )
