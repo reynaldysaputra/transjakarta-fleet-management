@@ -3,16 +3,18 @@ export interface ApiResourceIdentifier {
   type: string
 }
 
+export interface ApiRelationshipLinks {
+  self?: string
+  related?: string
+}
+
 export interface ApiRelationship {
+  links?: ApiRelationshipLinks
   data: ApiResourceIdentifier | ApiResourceIdentifier[] | null
 }
 
 export interface ApiRelationships {
   [key: string]: ApiRelationship | undefined
-}
-
-export interface ApiMeta {
-  [key: string]: unknown
 }
 
 export interface ApiLinks {
@@ -23,16 +25,22 @@ export interface ApiLinks {
   next?: string | null
 }
 
+export interface ApiErrorSource {
+  parameter?: string
+}
+
+export interface ApiErrorItem {
+  detail?: string
+  source?: ApiErrorSource
+  status?: string
+  code?: string
+}
+
+export interface ApiErrorResponse {
+  errors: ApiErrorItem[]
+}
+
 export interface JsonApiResponse<T> {
   data: T[]
   links?: ApiLinks
-  meta?: ApiMeta
-  included?: unknown[]
-}
-
-export interface JsonApiSingleResponse<T> {
-  data: T
-  links?: ApiLinks
-  meta?: ApiMeta
-  included?: unknown[]
 }
