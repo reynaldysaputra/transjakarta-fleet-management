@@ -1,4 +1,5 @@
 import type { Vehicle } from '../../types/vehicle'
+import VehicleMap from './vehicleMap'
 
 type VehicleDetailModalProps = {
   vehicle: Vehicle | null
@@ -24,13 +25,16 @@ function VehicleDetailModal({ vehicle, onClose }: VehicleDetailModalProps) {
   const revenueStatus = vehicle.attributes.revenue_status || '-'
   const occupancyStatus = vehicle.attributes.occupancy_status || '-'
 
+  const hasValidLocation =
+    typeof latitude === 'number' && typeof longitude === 'number'
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-lg"
+        className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-lg h-11/12 overflow-scroll"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -89,6 +93,23 @@ function VehicleDetailModal({ vehicle, onClose }: VehicleDetailModalProps) {
               <p><strong>Current Stop Sequence:</strong> {vehicle.attributes.current_stop_sequence ?? '-'}</p>
             </div>
           </div>
+        </div>
+
+        {/* Map Section */}
+        <div className="mt-5 rounded-lg border p-4">
+          <h3 className="mb-3 text-sm font-semibold text-slate-900">Vehicle Position Map</h3>
+
+          {hasValidLocation ? (
+            <VehicleMap
+              latitude={latitude}
+              longitude={longitude}
+              label={label}
+            />
+          ) : (
+            <p className="text-sm text-slate-500">
+              Vehicle location is not available.
+            </p>
+          )}
         </div>
       </div>
     </div>
