@@ -33,26 +33,45 @@ The application allows users to view vehicles, filter them by route and trip, na
 
 ## How to Run the Application
 
-### 1. Clone the repository
+## 1. Open Terminal / CMD first
+
+Before running the project, please open:
+
+Terminal (Mac/Linux)
+
+Command Prompt (CMD) or PowerShell (Windows)
+
+## 2. Before running this project, make sure you have:
+
+- **Node.js version 22**
+- **npm** installed
+
+  You can check your Node.js version by running:
+
+```
+node -v
+```
+
+### 3. Clone the repository
 
 ```bash
-git clone [<your-public-repository-url>](https://github.com/reynaldysaputra/transjakarta-fleet-management.git)
+git clone https://github.com/reynaldysaputra/transjakarta-fleet-management.git
 cd transjakarta-fleet-management
 ```
 
-### 2. Install dependencies
+### 4. Install dependencies
 
 ```
 npm install
 ```
 
-### 3. Start the development server
+### 5. Start the development server
 
 ```
 npm run dev
 ```
 
-### 4. Open in browser
+### 6. Open in browser
 
 ```
 http://localhost:5173
