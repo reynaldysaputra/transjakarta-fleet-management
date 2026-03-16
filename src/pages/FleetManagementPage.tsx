@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import EmptyState from '../components/common/EmptyState'
 import ErrorState from '../components/common/ErrorState'
 import LoadingSpinner from '../components/common/LoadingSpinner'
+import Pagination from '../components/pagination/Pagination'
 import VehicleGrid from '../components/vehicles/vehicleGrid'
 import { getApiErrorMessage, getVehicles } from '../api/mbta'
 import type { Vehicle } from '../types/vehicle'
@@ -11,7 +12,10 @@ function FleetManagementPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchVehicles = useCallback(async () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage, setItemsPerPage] = useState(5)
+
+  const fetchVehicles = async () => {
     try {
       setLoading(true)
       setError(null)
@@ -23,50 +27,63 @@ function FleetManagementPage() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }
 
   useEffect(() => {
-    void fetchVehicles()
-  }, [fetchVehicles])
+    fetchVehicles()
+  }, [])
+
+  const totalPages = Math.ceil(vehicles.length / itemsPerPage)
+
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+
+  const currentVehicles = vehicles.slice(startIndex, endIndex)
+
+  const handlePageChange = (page: number) => {
+    if (page < 1 || page > totalPages) return
+    setCurrentPage(page)
+  }
+
+  const handleItemsPerPageChange = (value: number) => {
+    setItemsPerPage(value)
+    setCurrentPage(1)
+  }
 
   return (
     <main className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-8">
         <header className="mb-8">
-          <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium text-blue-600">PT Transjakarta - Technical Test</p>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-              Fleet Management System
-            </h1>
-            <p className="max-w-2xl text-sm text-slate-600">
-              Monitor active vehicles, filter by route and trip, and inspect vehicle
-              details in a clean, responsive interface.
-            </p>
-            <h2 className='font-bold text-xs'>By Reynaldy Saputra</h2>
-          </div>
+          <p className="text-sm font-medium text-blue-600">PT Transjakarta - Technical Test</p>
+          <h1 className="text-3xl font-bold text-slate-900">Fleet Management System</h1>
+          <p className="mt-2 text-sm text-slate-600">
+            Active vehicles from MBTA API
+          </p>
         </header>
 
-        <section className="space-y-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-900">Vehicle Overview</h2>
-            <p className="mt-2 text-sm text-slate-600">
-              Active vehicles fetched from the MBTA Vehicle API.
-            </p>
-          </div>
+        {loading ? (
+          <LoadingSpinner label="Fetching vehicle data..." />
+        ) : error ? (
+          <ErrorState message={error} onRetry={fetchVehicles} />
+        ) : vehicles.length === 0 ? (
+          <EmptyState
+            title="No vehicles found"
+            description="The API returned no active vehicle data."
+          />
+        ) : (
+          <>
+            <VehicleGrid vehicles={currentVehicles} />
 
-          {loading ? (
-            <LoadingSpinner label="Fetching vehicle data..." />
-          ) : error ? (
-            <ErrorState message={error} onRetry={fetchVehicles} />
-          ) : vehicles.length === 0 ? (
-            <EmptyState
-              title="No vehicles found"
-              description="The API returned no active vehicle data."
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              totalData={vehicles.length}
+              itemsPerPage={itemsPerPage}
+              onPageChange={handlePageChange}
+              onItemsPerPageChange={handleItemsPerPageChange}
             />
-          ) : (
-            <VehicleGrid vehicles={vehicles} />
-          )}
-        </section>
+          </>
+        )}
       </div>
     </main>
   )
