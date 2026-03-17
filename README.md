@@ -65,6 +65,12 @@ cd transjakarta-fleet-management
 npm install
 ```
 
+Or if it doesn't work you can try this
+
+```
+npm install --force
+```
+
 ### 5. Start the development server
 
 ```
